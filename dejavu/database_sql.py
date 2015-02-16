@@ -66,13 +66,14 @@ class SQLDatabase(Database):
         CREATE TABLE IF NOT EXISTS `%s` (
              `%s` binary(10) not null,
              `%s` mediumint unsigned not null,
+             `%s` varchar(250) not null,
              `%s` int unsigned not null,
          INDEX (%s),
          UNIQUE KEY `unique_constraint` (%s, %s, %s),
          FOREIGN KEY (%s) REFERENCES %s(%s) ON DELETE CASCADE
     ) ENGINE=INNODB;""" % (
         FINGERPRINTS_TABLENAME, FIELD_HASH,
-        FIELD_SONG_ID, FIELD_OFFSET, FIELD_HASH,
+        FIELD_SONG_ID, FIELD_TAG,FIELD_OFFSET, FIELD_HASH,
         FIELD_SONG_ID, FIELD_OFFSET, FIELD_HASH,
         FIELD_SONG_ID, SONGS_TABLENAME, FIELD_SONG_ID
     )
@@ -92,9 +93,9 @@ class SQLDatabase(Database):
 
     # inserts (ignores duplicates)
     INSERT_FINGERPRINT = """
-        INSERT IGNORE INTO %s (%s, %s, %s) values
-            (UNHEX(%%s), %%s, %%s);
-    """ % (FINGERPRINTS_TABLENAME, FIELD_HASH, FIELD_SONG_ID, FIELD_OFFSET)
+        INSERT IGNORE INTO %s (%s, %s ,%s, %s) values
+            (UNHEX(%%s), %%s, %%s, %%s);
+    """ % (FINGERPRINTS_TABLENAME, FIELD_HASH, FIELD_TAG, FIELD_SONG_ID, FIELD_OFFSET)
 
     INSERT_SONG = "INSERT INTO %s (%s, %s) values (%%s, %%s);" % (
         SONGS_TABLENAME, FIELD_SONGNAME, FIELD_TAG)
@@ -233,12 +234,12 @@ class SQLDatabase(Database):
             cur.execute(self.SELECT_SONG, (sid,))
             return cur.fetchone()
 
-    def insert(self, hash, sid, offset):
+    def insert(self, hash, sid, offset, tag):
         """
-        Insert a (sha1, song_id, offset) row into database.
+        Insert a (sha1, tag, song_id, offset) row into database.
         """
         with self.cursor() as cur:
-            cur.execute(self.INSERT_FINGERPRINT, (hash, sid, offset))
+            cur.execute(self.INSERT_FINGERPRINT, (hash, tag, sid, offset))
 
     def insert_song(self, songname, tag):
         """
@@ -271,14 +272,14 @@ class SQLDatabase(Database):
         """
         return self.query(None)
 
-    def insert_hashes(self, sid, hashes):
+    def insert_hashes(self, sid, hashes, tag):
         """
         Insert series of hash => song_id, offset
         values into the database.
         """
         values = []
         for hash, offset in hashes:
-            values.append((hash, sid, offset))
+            values.append((hash, tag, sid, offset))
 
         with self.cursor() as cur:
             for split_values in grouper(values, 1000):
