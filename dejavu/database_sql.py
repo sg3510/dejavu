@@ -8,6 +8,9 @@ from MySQLdb.cursors import DictCursor
 from dejavu.database import Database
 
 
+# TODO:
+# add tags to hashes pull ids from this
+
 class SQLDatabase(Database):
     """
     Queries:
