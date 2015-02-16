@@ -95,7 +95,7 @@ class Dejavu(object):
 		pool.close()
 		pool.join()
 
-	def fingerprint_file(self, filepath, song_name=None, tag):
+	def fingerprint_file(self, filepath, tag, song_name=None):
 		songname = decoder.path_to_songname(filepath)
 		song_name = song_name or songname
 		# don't refingerprint already fingerprinted files
