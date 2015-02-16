@@ -60,6 +60,9 @@ class SQLDatabase(Database):
     FIELD_SONGNAME = "song_name"
     FIELD_TAG = "tag"
     FIELD_FINGERPRINTED = "fingerprinted"
+    FIELD_BUNDLE = "bundle"
+    FIELD_USER = "user"
+    FIELD_ADMIN = "admin"
 
     # creates
     CREATE_FINGERPRINTS_TABLE = """
