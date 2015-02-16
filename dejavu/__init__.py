@@ -76,7 +76,7 @@ class Dejavu(object):
 		# Loop till we have all of them
 		while True:
 			try:
-				song_name, hashes = iterator.next()
+				song_name, hashes, tag = iterator.next()
 			except multiprocessing.TimeoutError:
 				continue
 			except StopIteration:
@@ -86,7 +86,7 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				sid = self.db.insert_song(song_name)
+				sid = self.db.insert_song(song_name, tag)
 
 				self.db.insert_hashes(sid, hashes)
 				self.db.set_song_fingerprinted(sid)
@@ -192,13 +192,13 @@ def _fingerprint_worker(filename, limit=None, song_name=None):
 												 filename))
 		result |= set(hashes)
 
-		tag = re.search('([a-zA-Z]+)[0-9]+$',songname)
+	tag = re.search('([a-zA-Z]+)[0-9]+$',songname)
 
-		print "tag is "+tag.group(1)
+	print "tag is "+tag.group(1)
 
 
 
-	return song_name, result
+	return song_name, result, tag
 
 
 def chunkify(lst, n):

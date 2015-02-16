@@ -55,6 +55,7 @@ class SQLDatabase(Database):
     FIELD_SONG_ID = "song_id"
     FIELD_OFFSET = "offset"
     FIELD_SONGNAME = "song_name"
+    FIELD_TAG = "tag"
     FIELD_FINGERPRINTED = "fingerprinted"
 
     # creates
@@ -77,11 +78,12 @@ class SQLDatabase(Database):
         CREATE TABLE IF NOT EXISTS `%s` (
             `%s` mediumint unsigned not null auto_increment,
             `%s` varchar(250) not null,
+            `%s` varchar(250) not null,
             `%s` tinyint default 0,
         PRIMARY KEY (`%s`),
         UNIQUE KEY `%s` (`%s`)
     ) ENGINE=INNODB;""" % (
-        SONGS_TABLENAME, FIELD_SONG_ID, FIELD_SONGNAME, FIELD_FINGERPRINTED,
+        SONGS_TABLENAME, FIELD_SONG_ID, FIELD_SONGNAME, FIELD_TAG, FIELD_FINGERPRINTED,
         FIELD_SONG_ID, FIELD_SONG_ID, FIELD_SONG_ID,
     )
 
@@ -240,7 +242,7 @@ class SQLDatabase(Database):
         Inserts song in the database and returns the ID of the inserted record.
         """
         with self.cursor() as cur:
-            cur.execute(self.INSERT_SONG, (songname,))
+            cur.execute(self.INSERT_SONG, (songname, tag))
             return cur.lastrowid
 
     def query(self, hash):
