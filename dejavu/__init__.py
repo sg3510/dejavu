@@ -196,11 +196,6 @@ def _fingerprint_worker(filename, limit=None, song_name=None):
 
 	print "tag is "+tag.group(1)
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 8cd0fa283939fd4e2b455aa0bb88a3c7b8734043
 	return song_name, result, tag
 
 
