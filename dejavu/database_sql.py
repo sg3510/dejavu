@@ -93,8 +93,8 @@ class SQLDatabase(Database):
             (UNHEX(%%s), %%s, %%s);
     """ % (FINGERPRINTS_TABLENAME, FIELD_HASH, FIELD_SONG_ID, FIELD_OFFSET)
 
-    INSERT_SONG = "INSERT INTO %s (%s) values (%%s, %%s);" % (
-        SONGS_TABLENAME, FIELD_SONGNAME)
+    INSERT_SONG = "INSERT INTO %s (%s, %s) values (%%s, %%s);" % (
+        SONGS_TABLENAME, FIELD_SONGNAME, FIELD_TAG)
 
     # selects
     SELECT = """
