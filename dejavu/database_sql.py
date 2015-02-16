@@ -235,7 +235,7 @@ class SQLDatabase(Database):
         with self.cursor() as cur:
             cur.execute(self.INSERT_FINGERPRINT, (hash, sid, offset))
 
-    def insert_song(self, songname):
+    def insert_song(self, songname, tag):
         """
         Inserts song in the database and returns the ID of the inserted record.
         """
