@@ -241,6 +241,8 @@ class SQLDatabase(Database):
         """
         Inserts song in the database and returns the ID of the inserted record.
         """
+        print self.INSERT_SONG, (songname, tag)
+
         with self.cursor() as cur:
             cur.execute(self.INSERT_SONG, (songname, tag))
             return cur.lastrowid
