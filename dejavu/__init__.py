@@ -196,7 +196,7 @@ def _fingerprint_worker(filename, limit=None, song_name=None):
 
 	print "tag is "+tag.group(1)
 
-	return song_name, result, tag
+	return song_name, result, tag.group(1)
 
 
 def chunkify(lst, n):
