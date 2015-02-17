@@ -66,11 +66,11 @@ class Dejavu(object):
 				print "%s already fingerprinted, continuing..." % filename
 				continue
 
-			filenames_to_fingerprint.append(filename)
+			files_to_fingerprint.append(file_obj)
 
 		# Prepare _fingerprint_worker input
-		worker_input = zip(file_obj,
-						   [self.limit] * len(filenames_to_fingerprint))
+		worker_input = zip(files_to_fingerprint,
+						   [self.limit] * len(files_to_fingerprint))
 
 		# Send off our tasks
 		iterator = pool.imap_unordered(_fingerprint_worker,

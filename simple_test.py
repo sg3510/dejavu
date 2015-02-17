@@ -11,7 +11,6 @@ with open("dejavu.cnf") as f:
     config = json.load(f)
 
 bundles = models.Training_DB.objects(user = 'sebgrubb', bundle = 'dining_room')
-print bundles
 
 # create a Dejavu instance
 djv = Dejavu(config)
