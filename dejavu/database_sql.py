@@ -70,13 +70,19 @@ class SQLDatabase(Database):
              `%s` binary(10) not null,
              `%s` mediumint unsigned not null,
              `%s` varchar(250) not null,
+             `%s` varchar(250) not null,
+             `%s` varchar(250) not null,
+             `%s` bool not null default 0,
              `%s` int unsigned not null,
          INDEX (%s),
          UNIQUE KEY `unique_constraint` (%s, %s, %s),
          FOREIGN KEY (%s) REFERENCES %s(%s) ON DELETE CASCADE
     ) ENGINE=INNODB;""" % (
         FINGERPRINTS_TABLENAME, FIELD_HASH,
-        FIELD_SONG_ID, FIELD_TAG,FIELD_OFFSET, FIELD_HASH,
+        FIELD_SONG_ID, FIELD_TAG,
+        FIELD_USER, FIELD_BUNDLE,
+        FIELD_ADMIN,
+        FIELD_OFFSET, FIELD_HASH,
         FIELD_SONG_ID, FIELD_OFFSET, FIELD_HASH,
         FIELD_SONG_ID, SONGS_TABLENAME, FIELD_SONG_ID
     )
@@ -86,22 +92,27 @@ class SQLDatabase(Database):
             `%s` mediumint unsigned not null auto_increment,
             `%s` varchar(250) not null,
             `%s` varchar(250) not null,
+            `%s` varchar(250) not null,
+            `%s` varchar(250) not null,
+            `%s` bool not null default 0,
             `%s` tinyint default 0,
         PRIMARY KEY (`%s`),
         UNIQUE KEY `%s` (`%s`)
     ) ENGINE=INNODB;""" % (
-        SONGS_TABLENAME, FIELD_SONG_ID, FIELD_SONGNAME, FIELD_TAG, FIELD_FINGERPRINTED,
+        SONGS_TABLENAME, FIELD_SONG_ID, FIELD_SONGNAME, FIELD_TAG,
+        FIELD_USER, FIELD_BUNDLE,
+        FIELD_ADMIN, FIELD_FINGERPRINTED,
         FIELD_SONG_ID, FIELD_SONG_ID, FIELD_SONG_ID,
     )
 
     # inserts (ignores duplicates)
     INSERT_FINGERPRINT = """
-        INSERT IGNORE INTO %s (%s, %s ,%s, %s) values
-            (UNHEX(%%s), %%s, %%s, %%s);
-    """ % (FINGERPRINTS_TABLENAME, FIELD_HASH, FIELD_TAG, FIELD_SONG_ID, FIELD_OFFSET)
+        INSERT IGNORE INTO %s (%s, %s ,%s, %s, %s, %s, %s) values
+            (UNHEX(%%s), %%s, %%s, %%s, %%s, %%s, %%s);
+    """ % (FINGERPRINTS_TABLENAME, FIELD_HASH, FIELD_TAG, FIELD_SONG_ID, FIELD_OFFSET, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
-    INSERT_SONG = "INSERT INTO %s (%s, %s) values (%%s, %%s);" % (
-        SONGS_TABLENAME, FIELD_SONGNAME, FIELD_TAG)
+    INSERT_SONG = "INSERT INTO %s (%s, %s, %s, %s, %s) values (%%s, %%s, %%s, %%s, %%s);" % (
+        SONGS_TABLENAME, FIELD_SONGNAME, FIELD_TAG, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
     # selects
     SELECT = """
@@ -275,7 +286,7 @@ class SQLDatabase(Database):
         """
         return self.query(None)
 
-    def insert_hashes(self, sid, hashes, tag):
+    def insert_hashes(self, sid, hashes, tag, bundle, user, admin = False):
         """
         Insert series of hash => song_id, offset
         values into the database.
