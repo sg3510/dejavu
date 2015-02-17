@@ -46,7 +46,6 @@ class Dejavu(object):
 
 	def fingerprint_bundle(self, bundle_list, nprocesses=None):
 		"Fingerprints a bundle"
-		extensions = ['.wav']
 		# Try to use the maximum amount of processes if not given.
 		try:
 			nprocesses = nprocesses or multiprocessing.cpu_count()
@@ -112,6 +111,7 @@ class Dejavu(object):
 		filenames_to_fingerprint = []
 		for filename, _ in decoder.find_files(path, extensions):
 
+			print filename
 			# don't refingerprint already fingerprinted files
 			if decoder.path_to_songname(filename) in self.songnames_set:
 				print "%s already fingerprinted, continuing..." % filename
