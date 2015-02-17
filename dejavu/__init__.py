@@ -244,7 +244,7 @@ def _fingerprint_worker(file, limit=None, song_name=None):
 		# not checking for dict directly as type may be ImmutableDict or MongoEngine object
 		# and MongoEngine BaseDocument does not inherit dict
 		file = filename
-		filename = file.file_path + file.file_name
+		filename = __PATH__+file.file_path + file.file_name
 
 	songname, extension = os.path.splitext(os.path.basename(filename))
 	song_name = song_name or songname
