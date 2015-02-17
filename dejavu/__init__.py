@@ -69,7 +69,7 @@ class Dejavu(object):
 			filenames_to_fingerprint.append(filename)
 
 		# Prepare _fingerprint_worker input
-		worker_input = zip(filenames_to_fingerprint,
+		worker_input = zip(file_obj,
 						   [self.limit] * len(filenames_to_fingerprint))
 
 		# Send off our tasks
@@ -79,7 +79,7 @@ class Dejavu(object):
 		# Loop till we have all of them
 		while True:
 			try:
-				song_name, hashes, tag = iterator.next()
+				file_obj, hashes = iterator.next()
 			except multiprocessing.TimeoutError:
 				continue
 			except StopIteration:
@@ -89,9 +89,9 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
+				sid = self.db.insert_song(file_obj.file_name, file_obj.labeled_as, file_obj.user, file_obj.bundle, file_obj.admin)
 
-				self.db.insert_hashes(sid, hashes, tag, user, bundle, admin)
+				self.db.insert_hashes(sid, hashes, file_obj.labeled_as, file_obj.user, file_obj.bundle, file_obj.admin)
 				self.db.set_song_fingerprinted(sid)
 				self.get_fingerprinted_songs()
 
@@ -226,9 +226,18 @@ class Dejavu(object):
 		return r.recognize(*options, **kwoptions)
 
 
-def _fingerprint_worker(filename, limit=None, song_name=None):
+def _fingerprint_worker(file, limit=None, song_name=None):
 	# Pool.imap sends arguments as tuples so we have to unpack
 	# them ourself.
+	if type(file) is not str:
+		# If file is not a string we assume it is a dict with
+		# attributes 'file_path' and 'file_name'
+		# not checking for dict directly as type may be ImmutableDict or MongoEngine object
+		# and MongoEngine BaseDocument does not inherit dict
+		filename = file.file_path + file.file_name
+	else:
+		filename = file
+
 	try:
 		filename, limit = filename
 	except ValueError:
@@ -250,11 +259,11 @@ def _fingerprint_worker(filename, limit=None, song_name=None):
 												 filename))
 		result |= set(hashes)
 
-	tag = re.search('([a-zA-Z]+)[0-9]+$',songname)
-
-	print "tag is "+tag.group(1)
-
-	return song_name, result, tag.group(1)
+	if type(file) is not str:
+		# return the full file dict if a dict was the input
+		return file, result
+	else:
+		return song_name, result
 
 
 def chunkify(lst, n):
