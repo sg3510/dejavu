@@ -56,7 +56,7 @@ class Dejavu(object):
 
 		pool = multiprocessing.Pool(nprocesses)
 
-		filenames_to_fingerprint = []
+		files_to_fingerprint = []
 		for file_obj in bundle_list:
 
 			filename = file_obj.file_path+file_obj.file_name
