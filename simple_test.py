@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore")
 with open("dejavu.cnf") as f:
     config = json.load(f)
 
-bundles = models.Training_DB.objects(user = 'sebgrubb', bundle = 'dining_room')
+bundles = models.Training_DB.objects(user = 'sebgrubb', bundle = 'main')
 
 # create a Dejavu instance
 djv = Dejavu(config)

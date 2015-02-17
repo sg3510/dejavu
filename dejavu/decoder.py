@@ -2,7 +2,7 @@ import os
 import fnmatch
 import numpy as np
 from pydub import AudioSegment
-
+from pydub.effects import normalize
 
 def find_files(path, extensions):
     # Allow both with ".mp3" and without "mp3" to be used for extensions
@@ -26,7 +26,7 @@ def read(filename, limit=None):
 
     returns: (channels, samplerate)
     """
-    audiofile = AudioSegment.from_file(filename)
+    audiofile = normalize(AudioSegment.from_file(filename))
 
     if limit:
         audiofile = audiofile[:limit * 1000]
