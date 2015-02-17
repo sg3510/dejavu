@@ -44,6 +44,60 @@ class Dejavu(object):
 			song_name = song[self.db.FIELD_SONGNAME]
 			self.songnames_set.add(song_name)
 
+	def fingerprint_bundle(self, bundle_list, nprocesses=None):
+		"Fingerprints a bundle"
+		extensions = ['.wav']
+		# Try to use the maximum amount of processes if not given.
+		try:
+			nprocesses = nprocesses or multiprocessing.cpu_count()
+		except NotImplementedError:
+			nprocesses = 1
+		else:
+			nprocesses = 1 if nprocesses <= 0 else nprocesses
+
+		pool = multiprocessing.Pool(nprocesses)
+
+		filenames_to_fingerprint = []
+		for filename, _ in decoder.find_files(path, extensions):
+
+			# don't refingerprint already fingerprinted files
+			if decoder.path_to_songname(filename) in self.songnames_set:
+				print "%s already fingerprinted, continuing..." % filename
+				continue
+
+			filenames_to_fingerprint.append(filename)
+
+		# Prepare _fingerprint_worker input
+		worker_input = zip(filenames_to_fingerprint,
+						   [self.limit] * len(filenames_to_fingerprint))
+
+		# Send off our tasks
+		iterator = pool.imap_unordered(_fingerprint_worker,
+									   worker_input)
+
+		# Loop till we have all of them
+		while True:
+			try:
+				song_name, hashes, tag = iterator.next()
+			except multiprocessing.TimeoutError:
+				continue
+			except StopIteration:
+				break
+			except:
+				print("Failed fingerprinting")
+				# Print traceback because we can't reraise it here
+				traceback.print_exc(file=sys.stdout)
+			else:
+				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
+
+				self.db.insert_hashes(sid, hashes, tag, user, bundle, admin)
+				self.db.set_song_fingerprinted(sid)
+				self.get_fingerprinted_songs()
+
+		pool.close()
+		pool.join()
+
+
 	def fingerprint_directory(self, path, extensions, user, bundle, admin, nprocesses=None):
 		# Try to use the maximum amount of processes if not given.
 		try:
