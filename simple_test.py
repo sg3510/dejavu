@@ -15,4 +15,4 @@ print bundles
 
 # create a Dejavu instance
 djv = Dejavu(config)
-djv.fingerprint_directory("mp3", [".wav"],'seb','kitchen', False, 3)
+djv.fingerprint_bundle(bundles, 3)
