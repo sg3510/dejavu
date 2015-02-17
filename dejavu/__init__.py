@@ -232,20 +232,20 @@ class Dejavu(object):
 def _fingerprint_worker(file, limit=None, song_name=None):
 	# Pool.imap sends arguments as tuples so we have to unpack
 	# them ourself.
+
+	try:
+		filename, limit = file
+	except ValueError:
+		pass
+
 	print "File Type(%s): %s" %  (file,type(file))
-	if type(file) is not str:
+
+	if type(filename) is not str:
 		# If file is not a string we assume it is a dict with
 		# attributes 'file_path' and 'file_name'
 		# not checking for dict directly as type may be ImmutableDict or MongoEngine object
 		# and MongoEngine BaseDocument does not inherit dict
 		filename = file.file_path + file.file_name
-	else:
-		filename = file
-
-	try:
-		filename, limit = filename
-	except ValueError:
-		pass
 
 	songname, extension = os.path.splitext(os.path.basename(filename))
 	song_name = song_name or songname
