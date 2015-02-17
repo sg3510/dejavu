@@ -57,7 +57,9 @@ class Dejavu(object):
 		pool = multiprocessing.Pool(nprocesses)
 
 		filenames_to_fingerprint = []
-		for filename, _ in decoder.find_files(path, extensions):
+		for file_obj in bundle_list:
+
+			filename = file_obj.file_path+file_obj.file_name
 
 			# don't refingerprint already fingerprinted files
 			if decoder.path_to_songname(filename) in self.songnames_set:
@@ -122,6 +124,8 @@ class Dejavu(object):
 		# Prepare _fingerprint_worker input
 		worker_input = zip(filenames_to_fingerprint,
 						   [self.limit] * len(filenames_to_fingerprint))
+
+		print worker_input
 
 		# Send off our tasks
 		iterator = pool.imap_unordered(_fingerprint_worker,
