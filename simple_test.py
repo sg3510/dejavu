@@ -9,4 +9,4 @@ with open("dejavu.cnf") as f:
 
 # create a Dejavu instance
 djv = Dejavu(config)
-djv.fingerprint_directory("mp3", [".wav"], 3)
+djv.fingerprint_directory("mp3", [".wav"],'seb','kitchen', False, 3)

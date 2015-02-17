@@ -44,7 +44,7 @@ class Dejavu(object):
 			song_name = song[self.db.FIELD_SONGNAME]
 			self.songnames_set.add(song_name)
 
-	def fingerprint_directory(self, path, extensions, nprocesses=None):
+	def fingerprint_directory(self, path, extensions, user, bundle, admin, nprocesses=None):
 		# Try to use the maximum amount of processes if not given.
 		try:
 			nprocesses = nprocesses or multiprocessing.cpu_count()
@@ -86,9 +86,9 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				sid = self.db.insert_song(song_name, tag)
+				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
 
-				self.db.insert_hashes(sid, hashes, tag)
+				self.db.insert_hashes(sid, hashes, tag, user, bundle, admin)
 				self.db.set_song_fingerprinted(sid)
 				self.get_fingerprinted_songs()
 

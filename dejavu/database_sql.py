@@ -248,21 +248,20 @@ class SQLDatabase(Database):
             cur.execute(self.SELECT_SONG, (sid,))
             return cur.fetchone()
 
-    def insert(self, hash, sid, offset, tag):
+    def insert(self, hash, sid, offset, tag, user, bundle, admin = False):
         """
         Insert a (sha1, tag, song_id, offset) row into database.
         """
         with self.cursor() as cur:
-            cur.execute(self.INSERT_FINGERPRINT, (hash, tag, sid, offset))
+            cur.execute(self.INSERT_FINGERPRINT, (hash, tag, sid, offset, user, bundle, admin))
 
-    def insert_song(self, songname, tag):
+    def insert_song(self, songname, tag, user, bundle, admin = False):
         """
         Inserts song in the database and returns the ID of the inserted record.
         """
-        print self.INSERT_SONG, (songname, tag)
 
         with self.cursor() as cur:
-            cur.execute(self.INSERT_SONG, (songname, tag))
+            cur.execute(self.INSERT_SONG, (songname, tag, user, bundle, admin))
             return cur.lastrowid
 
     def query(self, hash):
@@ -286,14 +285,14 @@ class SQLDatabase(Database):
         """
         return self.query(None)
 
-    def insert_hashes(self, sid, hashes, tag, bundle, user, admin = False):
+    def insert_hashes(self, sid, hashes, tag, user, bundle, admin = False):
         """
         Insert series of hash => song_id, offset
         values into the database.
         """
         values = []
         for hash, offset in hashes:
-            values.append((hash, tag, sid, offset))
+            values.append((hash, tag, sid, offset, user, bundle, admin))
 
         with self.cursor() as cur:
             for split_values in grouper(values, 1000):
