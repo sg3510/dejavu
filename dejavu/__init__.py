@@ -7,6 +7,7 @@ import traceback
 import sys
 import re
 
+__PATH__ = "../../Server/website/app/"
 
 class Dejavu(object):
 
