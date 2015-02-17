@@ -235,13 +235,14 @@ def _fingerprint_worker(file, limit=None, song_name=None):
 	except ValueError:
 		pass
 
-	print "File Type(%s): %s" %  (file,type(file))
+	print "File Type(%s): %s" %  (filename,type(filename))
 
 	if type(filename) is not str:
 		# If file is not a string we assume it is a dict with
 		# attributes 'file_path' and 'file_name'
 		# not checking for dict directly as type may be ImmutableDict or MongoEngine object
 		# and MongoEngine BaseDocument does not inherit dict
+		file = filename
 		filename = file.file_path + file.file_name
 
 	songname, extension = os.path.splitext(os.path.basename(filename))
@@ -260,7 +261,7 @@ def _fingerprint_worker(file, limit=None, song_name=None):
 												 filename))
 		result |= set(hashes)
 
-	if type(file) is not str:
+	if type(filename) is not str:
 		# return the full file dict if a dict was the input
 		return file, result
 	else:
