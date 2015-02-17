@@ -125,8 +125,6 @@ class Dejavu(object):
 		worker_input = zip(filenames_to_fingerprint,
 						   [self.limit] * len(filenames_to_fingerprint))
 
-		print worker_input
-
 		# Send off our tasks
 		iterator = pool.imap_unordered(_fingerprint_worker,
 									   worker_input)
@@ -144,8 +142,7 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				tag = re.search('([a-zA-Z]+)[0-9]+$',song_name)
-				tag = tag.group(1)
+				tag = 'Not supplied'
 
 				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
 
