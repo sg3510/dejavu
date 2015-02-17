@@ -144,7 +144,7 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				tag = re.search('([a-zA-Z]+)[0-9]+$',songname)
+				tag = re.search('([a-zA-Z]+)[0-9]+$',song_name)
 				tag = tag.group(1)
 
 				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
