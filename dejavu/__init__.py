@@ -134,7 +134,7 @@ class Dejavu(object):
 		# Loop till we have all of them
 		while True:
 			try:
-				song_name, hashes, tag = iterator.next()
+				song_name, hashes = iterator.next()
 			except multiprocessing.TimeoutError:
 				continue
 			except StopIteration:
@@ -144,6 +144,9 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
+				tag = re.search('([a-zA-Z]+)[0-9]+$',songname)
+				tag = tag.group(1)
+
 				sid = self.db.insert_song(song_name, tag, user, bundle, admin)
 
 				self.db.insert_hashes(sid, hashes, tag, user, bundle, admin)
