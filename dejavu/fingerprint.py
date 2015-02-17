@@ -23,7 +23,7 @@ DEFAULT_WINDOW_SIZE = 4096
 # Ratio by which each sequential window overlaps the last and the
 # next window. Higher overlap will allow a higher granularity of offset
 # matching, but potentially more fingerprints.
-DEFAULT_OVERLAP_RATIO = 0.5
+DEFAULT_OVERLAP_RATIO = 0.25
 
 ######################################################################
 # Degree to which a fingerprint can be paired with its neighbors --
@@ -59,7 +59,7 @@ PEAK_SORT = True
 # Number of bits to throw away from the front of the SHA1 hash in the
 # fingerprint calculation. The more you throw away, the less storage, but
 # potentially higher collisions and misclassifications when identifying songs.
-FINGERPRINT_REDUCTION = 10
+FINGERPRINT_REDUCTION = 15
 
 def fingerprint(channel_samples, Fs=DEFAULT_FS,
                 wsize=DEFAULT_WINDOW_SIZE,
@@ -142,7 +142,7 @@ def generate_hashes(peaks, fan_value=DEFAULT_FAN_VALUE):
     for i in range(len(peaks)):
         for j in range(1, fan_value):
             if (i + j) < len(peaks):
-                
+
                 freq1 = peaks[i][IDX_FREQ_I]
                 freq2 = peaks[i + j][IDX_FREQ_I]
                 t1 = peaks[i][IDX_TIME_J]
