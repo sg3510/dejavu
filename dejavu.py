@@ -13,11 +13,11 @@ from argparse import RawTextHelpFormatter
 
 warnings.filterwarnings("ignore")
 
-DEFAULT_CONFIG_FILE = "dejavu.cnf.SAMPLE"
+DEFAULT_CONFIG_FILE = "dejavu.cnf"
 
 
 def init(configpath):
-    """ 
+    """
     Load config from a JSON file
     """
     try:
