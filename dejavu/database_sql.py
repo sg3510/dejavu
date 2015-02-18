@@ -298,7 +298,7 @@ class SQLDatabase(Database):
             for split_values in grouper(values, 1000):
                 cur.executemany(self.INSERT_FINGERPRINT, split_values)
 
-    def return_matches(self, hashes):
+    def return_matches(self, hashes, user, bundle, admin):
         """
         Return the (song_id, offset_diff) tuples associated with
         a list of (sha1, sample_offset) values.
@@ -316,6 +316,14 @@ class SQLDatabase(Database):
                 # Create our IN part of the query
                 query = self.SELECT_MULTIPLE
                 query = query % ', '.join(['UNHEX(%s)'] * len(split_values))
+
+                print "___"
+                print query
+                print "___"
+                print split_values
+                print "___"
+                print query % split_values
+
 
                 cur.execute(query, split_values)
 
