@@ -8,6 +8,10 @@ Dejavu can memorize audio by listening to it once and fingerprinting it. Then by
 
 Note that for voice recognition, Dejavu is not the right tool! Dejavu excels at recognition of exact signals with reasonable amounts of noise.
 
+## Notes on this edit
+
+This fork adds the ability to send a "bundle" with a list of files and the tags you may want to attribute them (e.g. you have two similar copies of a song but want them to return the same tag). Additionally songs can be made to "belong" to certain users to have their own private datasets.
+
 ## Installation and Dependencies:
 
 Read [INSTALLATION.md](INSTALLATION.md)
