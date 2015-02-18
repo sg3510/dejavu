@@ -305,6 +305,12 @@ class SQLDatabase(Database):
         Return the (song_id, offset_diff) tuples associated with
         a list of (sha1, sample_offset) values.
         """
+
+        bundle = 'main'
+        user = 'sebgrubb'
+        admin = 0
+
+
         # Create a dictionary of hash => offset pairs for later lookups
         mapper = {}
         for hash, offset in hashes:
@@ -317,7 +323,7 @@ class SQLDatabase(Database):
             for split_values in grouper(values, 1000):
                 # Create our IN part of the query
                 query = self.SELECT_MULTIPLE
-                query = query % ', '.join(['UNHEX(%s)'] * len(split_values))
+                query = query % (', '.join(['UNHEX(%s)'] * len(split_values)), bundle, user, admin)
 
                 print "___"
                 print query
