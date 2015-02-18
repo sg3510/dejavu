@@ -13,6 +13,7 @@ class Dejavu(object):
 
 	SONG_ID = "song_id"
 	SONG_NAME = 'song_name'
+	TAG = 'tag'
 	CONFIDENCE = 'confidence'
 	MATCH_TIME = 'match_time'
 	OFFSET = 'offset'
@@ -205,6 +206,7 @@ class Dejavu(object):
 		if song:
 			# TODO: Clarify what `get_song_by_id` should return.
 			songname = song.get(Dejavu.SONG_NAME, None)
+			tag = song.get(Dejavu.TAG, None)
 		else:
 			return None
 
@@ -214,6 +216,7 @@ class Dejavu(object):
 						 fingerprint.DEFAULT_OVERLAP_RATIO, 5)
 		song = {
 			Dejavu.SONG_ID: song_id,
+			Dejavu.TAG: tag,
 			Dejavu.SONG_NAME: songname,
 			Dejavu.CONFIDENCE: largest_count,
 			Dejavu.OFFSET: int(largest),

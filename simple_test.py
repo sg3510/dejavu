@@ -14,8 +14,8 @@ with open("dejavu.cnf") as f:
 
 # create a Dejavu instance
 djv = Dejavu(config)
-djv.fingerprint_bundle(bundles, 3)
-bundles = models.Training_DB.objects(user = 'sebgrubb', bundle = 'dining_room')
+# djv.fingerprint_bundle(bundles, 3)
+# bundles = models.Training_DB.objects(user = 'sebgrubb', bundle = 'dining_room')
 
 
 __PATH__ = "../../Server/website/app/"

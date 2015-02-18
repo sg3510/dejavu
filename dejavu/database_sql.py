@@ -131,8 +131,8 @@ class SQLDatabase(Database):
     """ % (FIELD_SONG_ID, FIELD_OFFSET, FINGERPRINTS_TABLENAME)
 
     SELECT_SONG = """
-        SELECT %s FROM %s WHERE %s = %%s
-    """ % (FIELD_SONGNAME, SONGS_TABLENAME, FIELD_SONG_ID)
+        SELECT %s, %s FROM %s WHERE %s = %%s
+    """ % (FIELD_SONGNAME, FIELD_TAG,SONGS_TABLENAME, FIELD_SONG_ID)
 
     SELECT_NUM_FINGERPRINTS = """
         SELECT COUNT(*) as n FROM %s
@@ -324,14 +324,6 @@ class SQLDatabase(Database):
                 # Create our IN part of the query
                 query = self.SELECT_MULTIPLE
                 query = query % (', '.join(['UNHEX(%s)'] * len(split_values)), bundle, user, admin)
-
-                print "___"
-                print query
-                print "___"
-                print split_values
-                print "___"
-                print query % split_values
-
 
                 cur.execute(query, split_values)
 
