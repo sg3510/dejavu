@@ -120,7 +120,7 @@ class SQLDatabase(Database):
     """ % (FIELD_SONG_ID, FIELD_OFFSET, FINGERPRINTS_TABLENAME, FIELD_HASH)
 
     SELECT_MULTIPLE = """
-        SELECT HEX(%s), %s, %s FROM %s WHERE %s IN (%%s) AND %s = `%%s` AND %s = `%%s` AND %s = %%s;
+        SELECT HEX(%s), %s, %s FROM %s WHERE %s IN (%%s) AND %s = '%%s' AND %s = '%%s' AND %s = %%s;
     """ % (FIELD_HASH, FIELD_SONG_ID, FIELD_OFFSET,
            FINGERPRINTS_TABLENAME, FIELD_HASH,
            FIELD_BUNDLE, FIELD_USER,
