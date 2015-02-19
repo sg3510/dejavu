@@ -21,5 +21,8 @@ djv = Dejavu(config)
 __PATH__ = "../../Server/website/app/"
 fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2014-12-17_16-11-53_pc_80e65026a704.wav'
 from dejavu.recognize import FileRecognizer
-song = djv.recognize(FileRecognizer, __PATH__+fname)
+user = 'sebgrubb'
+bundle = 'main'
+admin = 0 
+song = djv.recognize(FileRecognizer, __PATH__+fname, user, bundle, admin)
 print song

@@ -11,10 +11,10 @@ class BaseRecognizer(object):
         self.dejavu = dejavu
         self.Fs = fingerprint.DEFAULT_FS
 
-    def _recognize(self, *data):
+    def _recognize(self, *data, user, bundle, admin):
         matches = []
         for d in data:
-            matches.extend(self.dejavu.find_matches(d, Fs=self.Fs))
+            matches.extend(self.dejavu.find_matches(d, user, bundle, admin, Fs=self.Fs))
         return self.dejavu.align_matches(matches)
 
     def recognize(self):
@@ -25,11 +25,11 @@ class FileRecognizer(BaseRecognizer):
     def __init__(self, dejavu):
         super(FileRecognizer, self).__init__(dejavu)
 
-    def recognize_file(self, filename):
+    def recognize_file(self, filename, user, bundle, admin):
         frames, self.Fs = decoder.read(filename, self.dejavu.limit)
 
         t = time.time()
-        match = self._recognize(*frames)
+        match = self._recognize(*frames, user, bundle, admin)
         t = time.time() - t
 
         if match:
@@ -37,8 +37,8 @@ class FileRecognizer(BaseRecognizer):
 
         return match
 
-    def recognize(self, filename):
-        return self.recognize_file(filename)
+    def recognize(self, filename, user, bundle, admin):
+        return self.recognize_file(filename, user, bundle, admin)
 
 
 class MicrophoneRecognizer(BaseRecognizer):

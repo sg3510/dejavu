@@ -172,9 +172,9 @@ class Dejavu(object):
 			self.db.set_song_fingerprinted(sid)
 			self.get_fingerprinted_songs()
 
-	def find_matches(self, samples, Fs=fingerprint.DEFAULT_FS):
+	def find_matches(self, samples, user, bundle, admin, Fs=fingerprint.DEFAULT_FS):
 		hashes = fingerprint.fingerprint(samples, Fs=Fs)
-		return self.db.return_matches(hashes)
+		return self.db.return_matches(hashes, user, bundle, admin)
 
 	def align_matches(self, matches):
 		"""

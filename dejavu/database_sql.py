@@ -300,15 +300,15 @@ class SQLDatabase(Database):
             for split_values in grouper(values, 1000):
                 cur.executemany(self.INSERT_FINGERPRINT, split_values)
 
-    def return_matches(self, hashes):
+    def return_matches(self, hashes, user, bundle, admin):
         """
         Return the (song_id, offset_diff) tuples associated with
         a list of (sha1, sample_offset) values.
         """
 
-        bundle = 'main'
-        user = 'sebgrubb'
-        admin = 0
+        # bundle = 'main'
+        # user = 'sebgrubb'
+        # admin = 0
 
 
         # Create a dictionary of hash => offset pairs for later lookups
