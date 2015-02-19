@@ -1,5 +1,5 @@
-from dejavu.database import get_database
-import dejavu.decoder as decoder
+from database import get_database
+import decoder as decoder
 import fingerprint
 import multiprocessing
 import os

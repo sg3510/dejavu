@@ -1,5 +1,5 @@
-import dejavu.fingerprint as fingerprint
-import dejavu.decoder as decoder
+import fingerprint as fingerprint
+import decoder as decoder
 import numpy as np
 import pyaudio
 import time
