@@ -11,7 +11,7 @@ class BaseRecognizer(object):
         self.dejavu = dejavu
         self.Fs = fingerprint.DEFAULT_FS
 
-    def _recognize(self, *data, user, bundle, admin):
+    def _recognize(self, user, bundle, admin, *data):
         matches = []
         for d in data:
             matches.extend(self.dejavu.find_matches(d, user, bundle, admin, Fs=self.Fs))
@@ -29,7 +29,7 @@ class FileRecognizer(BaseRecognizer):
         frames, self.Fs = decoder.read(filename, self.dejavu.limit)
 
         t = time.time()
-        match = self._recognize(*frames, user, bundle, admin)
+        match = self._recognize(user, bundle, admin, *frames)
         t = time.time() - t
 
         if match:
