@@ -248,6 +248,8 @@ def _fingerprint_worker(file, limit=None, song_name=None):
 		# and MongoEngine BaseDocument does not inherit dict
 		file = filename
 		filename = __PATH__+file.file_path + file.file_name
+		print "CWD"
+		print os.getcwd()
 
 	songname, extension = os.path.splitext(os.path.basename(filename))
 	song_name = song_name or songname
