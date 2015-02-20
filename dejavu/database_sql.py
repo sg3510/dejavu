@@ -160,6 +160,15 @@ class SQLDatabase(Database):
         DELETE FROM %s WHERE %s = 0;
     """ % (SONGS_TABLENAME, FIELD_FINGERPRINTED)
 
+    DELETE_SONG_BUNDLE = """
+        DELETE FROM %s WHERE %s = '%%s' AND %s = '%%s' AND %s = %%s;
+    """ % (SONGS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
+
+    DELETE_FINGERPRINT_BUNDLE = """
+        DELETE FROM %s WHERE %s = '%%s' AND %s = '%%s' AND %s = %%s;
+    """ % (FINGERPRINTS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
+
+
     def __init__(self, **options):
         super(SQLDatabase, self).__init__()
         self.cursor = cursor_factory(**options)
@@ -202,6 +211,14 @@ class SQLDatabase(Database):
         """
         with self.cursor() as cur:
             cur.execute(self.DELETE_UNFINGERPRINTED)
+
+    def delete_bundle(self, user, bundle, admin):
+        """
+        Removes all songs and fingerprints associated with a bundle.
+        """
+        with self.cursor() as cur:
+            cur.execute(self.DELETE_SONG_BUNDLE, (user, bundle, admin))
+            cur.execute(self.DELETE_FINGERPRINT_BUNDLE, (user, bundle, admin))
 
     def get_num_songs(self):
         """

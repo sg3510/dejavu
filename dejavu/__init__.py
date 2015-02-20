@@ -46,6 +46,10 @@ class Dejavu(object):
 			song_name = song[self.db.FIELD_SONGNAME]
 			self.songnames_set.add(song_name)
 
+	def erase_bundle(self, user, bundle, admin):
+		self.db.delete_bundle(user,bundle,admin)
+		return 0
+
 	def fingerprint_bundle(self, bundle_list, nprocesses=None):
 		"Fingerprints a bundle"
 		# Try to use the maximum amount of processes if not given.
