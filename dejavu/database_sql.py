@@ -6,7 +6,26 @@ import MySQLdb as mysql
 from MySQLdb.cursors import DictCursor
 
 from dejavu.database import Database
-from dejavu import logger
+
+# Configure logging
+__MONGOLOG_FILE__ = "mongolog.cnf"
+import logging
+import json
+import os
+if os.path.isfile(__MONGOLOG_FILE__):
+	with open(__MONGOLOG_FILE__) as f:
+	    config = json.load(f)
+	from log4mongo.handlers import MongoHandler
+	handler = MongoHandler(level = logging.DEBUG ,host=config['host'], capped=config['capped'], port=config['port'], database_name=config['db'], collection=config['collection'], username=config['user'], password=config['passwd'])
+else:
+	handler = logging.FileHandler("dejavusql.log")
+	handler.setLevel(logging.DEBUG)
+	# create a logging format
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	handler.setFormatter(formatter)
+logger = logging.getLogger('Classification_Dejavu_SQL')
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 
 # TODO:
