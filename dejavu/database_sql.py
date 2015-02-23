@@ -6,6 +6,7 @@ import MySQLdb as mysql
 from MySQLdb.cursors import DictCursor
 
 from dejavu.database import Database
+from dejavu import logger
 
 
 # TODO:
@@ -217,6 +218,8 @@ class SQLDatabase(Database):
         Removes all songs and fingerprints associated with a bundle.
         """
         with self.cursor() as cur:
+            logger.debug(self.DELETE_SONG_BUNDLE % (user, bundle, admin))
+            logger.debug(self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin))
             cur.execute(self.DELETE_SONG_BUNDLE, (user, bundle, admin))
             cur.execute(self.DELETE_FINGERPRINT_BUNDLE, (user, bundle, admin))
 
