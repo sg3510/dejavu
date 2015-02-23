@@ -9,6 +9,17 @@ import re
 
 __PATH__ = "website/app/"
 
+
+# Configure logging
+import logging
+
+from log4mongo.handlers import MongoHandler
+
+handler = MongoHandler(level = logging.DEBUG ,host='', capped=True, port=41157, database_name='', collection='', username='', password='')
+logger = logging.getLogger('Train_Request')
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
 class Dejavu(object):
 
 	SONG_ID = "song_id"
