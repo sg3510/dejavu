@@ -181,11 +181,11 @@ class SQLDatabase(Database):
     """ % (SONGS_TABLENAME, FIELD_FINGERPRINTED)
 
     DELETE_SONG_BUNDLE = """
-        DELETE FROM %s WHERE %s = `%%s` AND %s = `%%s` AND %s = %%s;
+        DELETE FROM %s WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%s;
     """ % (SONGS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
     DELETE_FINGERPRINT_BUNDLE = """
-        DELETE FROM %s WHERE %s = `%%s` AND %s = `%%s` AND %s = %%s;
+        DELETE FROM %s WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%s;
     """ % (FINGERPRINTS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
 
