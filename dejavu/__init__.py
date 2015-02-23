@@ -8,14 +8,22 @@ import sys
 import re
 
 __PATH__ = "website/app/"
-
+__MONGOLOG_FILE__ = "mongolog.cnf"
 
 # Configure logging
 import logging
+if os.path.isfile(__MONGOLOG_FILE__):
+	with open(__MONGOLOG_FILE__) as f:
+	    config = json.load(f)
+	from log4mongo.handlers import MongoHandler
+	handler = MongoHandler(level = logging.DEBUG ,host='', capped=True, port=41157, database_name='', collection='', username='', password='')
+else
+	handler = logging.FileHandler("dejavu.log")
+	handler.setLevel(logging.DEBUG)
+	# create a logging format
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	handler.setFormatter(formatter)
 
-from log4mongo.handlers import MongoHandler
-
-handler = MongoHandler(level = logging.DEBUG ,host='', capped=True, port=41157, database_name='', collection='', username='', password='')
 logger = logging.getLogger('Train_Request')
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
