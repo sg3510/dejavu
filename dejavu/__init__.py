@@ -28,6 +28,7 @@ else:
 logger = logging.getLogger('Classification_Dejavu')
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
+logger.info('dejavu initiated')
 
 class Dejavu(object):
 
