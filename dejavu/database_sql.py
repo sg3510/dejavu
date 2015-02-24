@@ -13,16 +13,16 @@ import logging
 import json
 import os
 if os.path.isfile(__MONGOLOG_FILE__):
-	with open(__MONGOLOG_FILE__) as f:
-	    config = json.load(f)
-	from log4mongo.handlers import MongoHandler
-	handler = MongoHandler(level = logging.DEBUG ,host=config['host'], capped=config['capped'], port=config['port'], database_name=config['db'], collection=config['collection'], username=config['user'], password=config['passwd'])
+    with open(__MONGOLOG_FILE__) as f:
+        config = json.load(f)
+    from log4mongo.handlers import MongoHandler
+    handler = MongoHandler(level = logging.DEBUG ,host=config['host'], capped=config['capped'], port=config['port'], database_name=config['db'], collection=config['collection'], username=config['user'], password=config['passwd'])
 else:
-	handler = logging.FileHandler("dejavusql.log")
-	handler.setLevel(logging.DEBUG)
-	# create a logging format
-	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-	handler.setFormatter(formatter)
+    handler = logging.FileHandler("dejavusql.log")
+    handler.setLevel(logging.DEBUG)
+    # create a logging format
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
 logger = logging.getLogger('Classification_Dejavu_SQL')
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
@@ -232,15 +232,15 @@ class SQLDatabase(Database):
         with self.cursor() as cur:
             cur.execute(self.DELETE_UNFINGERPRINTED)
 
-	def delete_bundle(self, user, bundle, admin):
-		"""
-		Removes all songs and fingerprints associated with a bundle.
-		"""
-		with self.cursor() as cur:
-			sql_query = self.DELETE_SONG_BUNDLE % (user, bundle, admin)
-			cur.execute(sql_query, )
-			sql_query = self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin)
-			cur.execute(sql_query, )
+    def delete_bundle(self, user, bundle, admin):
+        """
+        Removes all songs and fingerprints associated with a bundle.
+        """
+        with self.cursor() as cur:
+            sql_query = self.DELETE_SONG_BUNDLE % (user, bundle, admin)
+            cur.execute(sql_query, )
+            sql_query = self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin)
+            cur.execute(sql_query, )
 
     def get_num_songs(self):
         """
