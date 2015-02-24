@@ -232,16 +232,16 @@ class SQLDatabase(Database):
         with self.cursor() as cur:
             cur.execute(self.DELETE_UNFINGERPRINTED)
 
-    def delete_bundle(self, user, bundle, admin):
-        """
-        Removes all songs and fingerprints associated with a bundle.
-        """
-        with self.cursor() as cur:
+	def delete_bundle(self, user, bundle, admin):
+		"""
+		Removes all songs and fingerprints associated with a bundle.
+		"""
+		with self.cursor() as cur:
 			sql_query = self.DELETE_SONG_BUNDLE % (user, bundle, admin)
-            cur.execute(sql_query,)
+			cur.execute(sql_query, )
 			sql_query = self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin)
-            cur.execute(sql_query,)
-			
+			cur.execute(sql_query, )
+
     def get_num_songs(self):
         """
         Returns number of songs the database has fingerprinted.

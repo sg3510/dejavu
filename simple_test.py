@@ -33,5 +33,5 @@ with djv.db.cursor() as cur:
     # logger.debug(self.DELETE_SONG_BUNDLE % (user, bundle, admin))
     # logger.debug(self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin))
     sql_query = djv.db.DELETE_SONG_BUNDLE % (user, bundle, admin)
-    cur.execute(djv.db.DELETE_SONG_BUNDLE, (user, bundle, admin))
+    cur.execute(sql_query,)
     # cur.execute(djv.db.DELETE_FINGERPRINT_BUNDLE, (user, bundle, admin))
