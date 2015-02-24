@@ -118,7 +118,7 @@ class Dejavu(object):
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
-				log.info("Adding file %s by user %s to SQL" % (file_obj.file_name, file_obj.user))
+				logger.info("Adding file %s by user %s to SQL" % (file_obj.file_name, file_obj.user))
 
 				sid = self.db.insert_song(file_obj.file_name, file_obj.labeled_as, file_obj.user, file_obj.bundle, file_obj.admin)
 
