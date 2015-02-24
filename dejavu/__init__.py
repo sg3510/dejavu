@@ -92,7 +92,7 @@ class Dejavu(object):
 
 			# don't refingerprint already fingerprinted files
 			if decoder.path_to_songname(filename) in self.songnames_set:
-				print "%s already fingerprinted, continuing..." % filename
+				logger.debug("%s already fingerprinted, continuing..." % filename)
 				continue
 
 			files_to_fingerprint.append(file_obj)
@@ -113,8 +113,8 @@ class Dejavu(object):
 				continue
 			except StopIteration:
 				break
-			except:
-				print("Failed fingerprinting")
+			except Exception, e:
+				logger.error("Failed fingerprinting: %s" % e)
 				# Print traceback because we can't reraise it here
 				traceback.print_exc(file=sys.stdout)
 			else:
