@@ -181,13 +181,11 @@ class SQLDatabase(Database):
     """ % (SONGS_TABLENAME, FIELD_FINGERPRINTED)
 
     DELETE_SONG_BUNDLE = """
-        DELETE FROM %s
-		WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%s;
+        DELETE FROM %s WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%i;
     """ % (SONGS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
     DELETE_FINGERPRINT_BUNDLE = """
-        DELETE FROM %s
-		WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%s;
+        DELETE FROM %s WHERE %s = \'%%s\' AND %s = \'%%s\' AND %s = %%i;
     """ % (FINGERPRINTS_TABLENAME, FIELD_USER, FIELD_BUNDLE, FIELD_ADMIN)
 
 
@@ -239,11 +237,11 @@ class SQLDatabase(Database):
         Removes all songs and fingerprints associated with a bundle.
         """
         with self.cursor() as cur:
-            logger.debug(self.DELETE_SONG_BUNDLE % (user, bundle, admin))
-            logger.debug(self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin))
-            cur.execute(self.DELETE_SONG_BUNDLE, (user, bundle, admin))
-            cur.execute(self.DELETE_FINGERPRINT_BUNDLE, (user, bundle, admin))
-
+			sql_query = self.DELETE_SONG_BUNDLE % (user, bundle, admin)
+            cur.execute(sql_query,)
+			sql_query = self.DELETE_FINGERPRINT_BUNDLE % (user, bundle, admin)
+            cur.execute(sql_query,)
+			
     def get_num_songs(self):
         """
         Returns number of songs the database has fingerprinted.
