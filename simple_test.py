@@ -37,3 +37,8 @@ with djv.db.cursor() as cur:
     sql_query = djv.db.DELETE_SONG_BUNDLE % (user, bundle, admin)
     cur.execute(sql_query,)
     # cur.execute(djv.db.DELETE_FINGERPRINT_BUNDLE, (user, bundle, admin))
+
+
+
+
+__PATH__ = "../../../Server/website/app/"

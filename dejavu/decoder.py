@@ -3,6 +3,7 @@ import fnmatch
 import numpy as np
 from pydub import AudioSegment
 from pydub.effects import normalize
+import wavio
 
 def find_files(path, extensions):
     # Allow both with ".mp3" and without "mp3" to be used for extensions
@@ -26,16 +27,21 @@ def read(filename, limit=None):
 
     returns: (channels, samplerate)
     """
-    audiofile = normalize(AudioSegment.from_file(filename))
+    try:
+        # pydub does not support all files, use wavio as backup
+        audiofile = normalize(AudioSegment.from_file(filename))
 
-    if limit:
-        audiofile = audiofile[:limit * 1000]
+        if limit:
+            audiofile = audiofile[:limit * 1000]
 
-    data = np.fromstring(audiofile._data, np.int16)
-
-    channels = []
-    for chn in xrange(audiofile.channels):
-        channels.append(data[chn::audiofile.channels])
+        data = np.fromstring(audiofile._data, np.int16)
+        channels = []
+        for chn in xrange(audiofile.channels):
+            channels.append(data[chn::audiofile.channels])
+    else:
+        # integrate here for wavio
+        pass
+        # astype(np.int16)
 
     return channels, audiofile.frame_rate
 
