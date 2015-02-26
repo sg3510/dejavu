@@ -3,6 +3,7 @@ import fnmatch
 import numpy as np
 from pydub import AudioSegment
 from pydub.effects import normalize
+from pydub.utils import audioop
 import wavio
 
 def find_files(path, extensions):
@@ -38,7 +39,8 @@ def read(filename, limit=None):
         channels = []
         for chn in xrange(audiofile.channels):
             channels.append(data[chn::audiofile.channels])
-    else:
+    except audioop.error:
+        print "audioop.error: 24-bit not supported"
         # integrate here for wavio
         pass
         # astype(np.int16)

@@ -42,3 +42,9 @@ with djv.db.cursor() as cur:
 
 
 __PATH__ = "../../../Server/website/app/"
+fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2014-12-17_16-11-53_pc_80e65026a704.wav'
+cname = '/static/train_db/eddy/dcase/alert06.wav'
+
+import decoder
+decoder.read(__PATH__+cname)
+decoder.read(__PATH__+fname)
