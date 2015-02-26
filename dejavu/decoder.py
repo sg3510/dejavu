@@ -7,6 +7,11 @@ from pydub.utils import audioop
 import wavio
 
 def find_files(path, extensions):
+    """
+    Returns files in directory matching the given extensions
+
+    yields: matching file
+    """
     # Allow both with ".mp3" and without "mp3" to be used for extensions
     extensions = [e.replace(".", "") for e in extensions]
 

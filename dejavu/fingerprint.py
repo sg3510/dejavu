@@ -90,7 +90,11 @@ def fingerprint(channel_samples, Fs=DEFAULT_FS,
 
 
 def get_2D_peaks(arr2D, plot=False, amp_min=DEFAULT_AMP_MIN):
-    # http://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.morphology.iterate_structure.html#scipy.ndimage.morphology.iterate_structure
+    """
+    Uses `image processing <http://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.morphology.iterate_structure.html#scipy.ndimage.morphology.iterate_structure>`_
+    toolkit from scipy to get 2D peaks from the spectogram(``arr2D``) of the sound.
+    """
+    #
     struct = generate_binary_structure(2, 1)
     neighborhood = iterate_structure(struct, PEAK_NEIGHBORHOOD_SIZE)
 
