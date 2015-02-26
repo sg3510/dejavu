@@ -42,13 +42,13 @@ with djv.db.cursor() as cur:
 
 
 __PATH__ = "../../../Server/website/app/"
-# fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2014-12-17_16-11-53_pc_80e65026a704.wav'
-fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2015-02-26_11-59-47.700_web_12131415, 12931220141.wav'
+fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2014-12-17_16-11-53_pc_80e65026a704.wav'
+# fname = '/static/train_db/user/54808cf080d8ab078e26b8f5/main/out_2015-02-26_11-59-47.700_web_12131415, 12931220141.wav'
 cname = '/static/train_db/eddy/dcase/alert06.wav'
 
 import decoder
 # decoder.read(__PATH__+cname)
-dobj = decoder.read(__PATH__+fname)[0]
+dobj = decoder.read(__PATH__+fname, 30)[0]
 
 import wavio
 # wavio.readwav(__PATH__+cname)[2].T
@@ -59,5 +59,5 @@ wobj = []
 for a in wobj_p:
     wobj.append(a)
 
-wobj
-dobj
+len(wobj[0])
+len(dobj[0])
