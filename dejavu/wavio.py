@@ -1,16 +1,8 @@
 # wavio.py
 # Author: Warren Weckesser
 # License: BSD 3-Clause (http://opensource.org/licenses/BSD-3-Clause)
-
-"""
-.. module:: wavio
-    :platform: Unix
-    :synopsis: A Python module for reading and writing 24 bit WAV files.
-
-.. moduleauthor:: Warren Weckesser
-
-
-"""
+# Synopsis: A Python module for reading and writing 24 bit WAV files.
+# Github: github.com/WarrenWeckesser/wavio
 
 import wave as _wave
 import numpy as _np
