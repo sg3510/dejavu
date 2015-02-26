@@ -20,7 +20,8 @@ def find_files(path, extensions):
 def read(filename, limit=None):
     """
     Reads any file supported by pydub (ffmpeg) and returns the data contained
-    within.
+    within. If file reading fails due to input being 24-bit wav file,
+    wavio is used as a backup.
 
     Can be optionally limited to a certain amount of seconds from the start
     of the file by specifying the `limit` parameter. This is the amount of
@@ -28,7 +29,6 @@ def read(filename, limit=None):
 
     returns: (channels, samplerate)
     """
-    # pydub does not support 24-bit wav files, use wavio as backup
     try:
         audiofile = normalize(AudioSegment.from_file(filename))
 
