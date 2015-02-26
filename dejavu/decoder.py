@@ -28,8 +28,8 @@ def read(filename, limit=None):
 
     returns: (channels, samplerate)
     """
+    # pydub does not support 24-bit wav files, use wavio as backup
     try:
-        # pydub does not support all files, use wavio as backup
         audiofile = normalize(AudioSegment.from_file(filename))
 
         if limit:
@@ -41,13 +41,12 @@ def read(filename, limit=None):
             channels.append(data[chn::audiofile.channels])
         fs = audiofile.frame_rate
     except audioop.error:
-        print "audioop.error: 24-bit not supported"
         fs, _, audiofile = wavio.readwav(filename)
         audiofile = audiofile.T
         audiofile = audiofile.astype(np.int16)
         channels = []
-        for a in audiofile:
-            channels.append(a)
+        for chn in audiofile:
+            channels.append(chn)
 
     return channels, fs
 
