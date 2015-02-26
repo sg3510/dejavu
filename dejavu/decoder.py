@@ -39,13 +39,17 @@ def read(filename, limit=None):
         channels = []
         for chn in xrange(audiofile.channels):
             channels.append(data[chn::audiofile.channels])
+        fs = audiofile.frame_rate
     except audioop.error:
         print "audioop.error: 24-bit not supported"
-        # integrate here for wavio
-        pass
-        # astype(np.int16)
+        fs, _, audiofile = wavio.readwav(filename)
+        audiofile = audiofile.T
+        audiofile = audiofile.astype(np.int16)
+        channels = []
+        for a in audiofile:
+            channels.append(a)
 
-    return channels, audiofile.frame_rate
+    return channels, fs
 
 
 def path_to_songname(path):
