@@ -1,3 +1,14 @@
+"""
+.. module:: Dejavu
+    :platform: Unix
+    :synopsis: Audio fingerprinting and recognition in Python.
+
+.. moduleauthor:: `Will Drevo <http://willdrevo.com/>`_
+
+
+"""
+
+
 from dejavu.database import get_database
 import dejavu.decoder as decoder
 import fingerprint
@@ -41,6 +52,11 @@ class Dejavu(object):
 	OFFSET_SECS = 'offset_seconds'
 
 	def __init__(self, config):
+		"""
+		Init takes in a dict of settings, such as SQL db name and access
+		parameters.
+		"""
+
 		super(Dejavu, self).__init__()
 
 		self.config = config
@@ -68,12 +84,22 @@ class Dejavu(object):
 			self.songnames_set.add(song_name)
 
 	def erase_bundle(self, user, bundle, admin):
+		"""
+		If retraining a new bundle and some files have been updated it can be
+		preferable to delete a bundle before to ensuring to leftovers remain
+		from the old files.
+		"""
 		self.db.delete_bundle(user,bundle,admin)
 		logger.info("%s by %s deleted from SQL" % (bundle, user))
 		return 0
 
 	def fingerprint_bundle(self, bundle_list, nprocesses=None):
-		"Fingerprints a bundle"
+		"""
+		Fingerprints a bundle, taking in a dict like object.
+
+		This creates a pool of processes that returns the fingerprint for each
+		file and writes them to the database.
+		"""
 		logger.debug('Starting to train bundle.')
 		# Try to use the maximum amount of processes if not given.
 		try:
