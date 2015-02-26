@@ -19,6 +19,8 @@ import sys
 import re
 import json
 
+sys.path.append('../')
+
 __PATH__ = "website/app/"
 __MONGOLOG_FILE__ = "mongolog.cnf"
 
