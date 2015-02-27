@@ -146,6 +146,12 @@ class SQLDatabase(Database):
            FIELD_BUNDLE, FIELD_USER,
            FIELD_ADMIN)
 
+    SELECT_MULTIPLE_ADMIN = """
+        SELECT HEX(%s), %s, %s FROM %s WHERE %s IN (%%s) AND %s = '%%s' AND %s = %%s;
+    """ % (FIELD_HASH, FIELD_SONG_ID, FIELD_OFFSET,
+           FINGERPRINTS_TABLENAME, FIELD_HASH,
+           FIELD_BUNDLE, FIELD_ADMIN)
+
     SELECT_ALL = """
         SELECT %s, %s FROM %s;
     """ % (FIELD_SONG_ID, FIELD_OFFSET, FINGERPRINTS_TABLENAME)
@@ -361,8 +367,12 @@ class SQLDatabase(Database):
         with self.cursor() as cur:
             for split_values in grouper(values, 1000):
                 # Create our IN part of the query
-                query = self.SELECT_MULTIPLE
-                query = query % (', '.join(['UNHEX(%s)'] * len(split_values)), bundle, user, admin)
+                if admin:
+                    query = self.SELECT_MULTIPLE_ADMIN
+                    query = query % (', '.join(['UNHEX(%s)'] * len(split_values)), bundle, admin)
+                else:
+                    query = self.SELECT_MULTIPLE
+                    query = query % (', '.join(['UNHEX(%s)'] * len(split_values)), bundle, user, admin)
 
                 cur.execute(query, split_values)
 
