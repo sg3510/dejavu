@@ -1,7 +1,7 @@
 """
 .. module:: Dejavu
-    :platform: Unix
-    :synopsis: Audio fingerprinting and recognition in Python.
+	:platform: Unix
+	:synopsis: Audio fingerprinting and recognition in Python.
 
 .. moduleauthor:: `Will Drevo <http://willdrevo.com/>`_
 
@@ -26,7 +26,7 @@ __MONGOLOG_FILE__ = "mongolog.cnf"
 import logging
 if os.path.isfile(__MONGOLOG_FILE__):
 	with open(__MONGOLOG_FILE__) as f:
-	    config = json.load(f)
+		config = json.load(f)
 	from log4mongo.handlers import MongoHandler
 	handler = MongoHandler(level = logging.DEBUG ,host=config['host'], capped=config['capped'], port=config['port'], database_name=config['db'], collection=config['collection'], username=config['user'], password=config['passwd'])
 else:
