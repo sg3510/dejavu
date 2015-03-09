@@ -9,7 +9,7 @@ from operator import itemgetter
 
 # Loads settings from the db
 from models import Sys_Settings
-sys_sett = models.Sys_Settings.objects.get()
+sys_sett = Sys_Settings.objects.get()
 
 
 IDX_FREQ_I = sys_sett.dejavu_settings.IDX_FREQ_I
